@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<head>
+	<title>Kyla's Psychology IA</title>
+	<link href="default.css" rel="stylesheet" type="text/css" media="all" />
+
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"> </script>
+
+	<script type = "text/javascript">
+		var numSeconds = 120;
+		var numMiliseconds = 120000;
+		var recallSeconds = 300;
+		var recallMiliseconds = 300000;
+	
+		$(document).ready(function(){
+			$("#story").hide();
+			$("#break").hide();
+			$("#recall_instructions2").hide();
+			$("#recall_TextArea2").hide();
+			$("#readStoryButton").click(function(){
+				$("#story").show();
+				$("#schema_instructions2").hide();
+				$("#readStoryButton").hide();
+	
+				startTimer(numSeconds);
+				
+				setTimeout(function(){
+					$("#break").show();
+					$("#story").hide();
+					resetTimer();
+					startTimer(numSeconds);
+					setTimeout(function(){
+						$("#break").hide();
+						$("#recall_instructions2").show();
+						$("#recall_TextArea2").show();
+						alert("Your 2 minute break is over. Please continue testing.");
+						resetTimer();
+						startTimer(recallSeconds);
+						setTimeout(function(){
+							document.forms["recall_TextArea2"].submit();
+						}, recallMiliseconds);
+					}, numMiliseconds); //end of break
+				}, numMiliseconds); //end of story reading
+	
+			});
+		});
+		
+		function resetTimer() {
+			window.clearTimeout(timerObject);
+		}
+		
+		function startTimer(time){
+			var count = time; //120 seconds
+			timerObject = setInterval(timer, 1000); //count down by 1 second
+			document.getElementById("timer").innerHTML= Math.floor(count/60) + ":00";
+			function timer(){
+				count = count-1;
+				var intValue = Math.floor(count/60);
+				if (count%60 < 10){
+					document.getElementById("timer").innerHTML= intValue + ":0" + count%60;
+				} else{
+					document.getElementById("timer").innerHTML= intValue + ":" + count%60;
+				}
+				if (count <= 0){
+					clearInterval(counter);
+					return;
+				}
+			}
+		}
+	</script>
+
+</head>
+
+<body>
+	<div id="header" class="container">
+		<div id="logo">
+			<h1><a href="#">Kyla's Psychology IA</a></h1>
+		</div>
+
+		<div id="timer"></div>
+
+	</div>
+
+	<div id="wrapper" class="container">
+		<div id="page">
+			<div id="experimentContent">
+				<center><p id = "schema_instructions2"> You will have 2 minutes to read the following story. This time, while you are reading imagine you are a <strong>burglar</strong></p></center>
+				<center><button id = "readStoryButton"> Read Story </button></center>
+				<p id = "story"> The two boys ran until they came to the driveway. "See, I told you today was good for skipping school," 
+							said Mark. "Mom is never home on Thursday," he added. Tall hedges hid the house from the road so the pair strolled 
+							across the finely landscaped yard. "I never knew your place was so big," said Pete. "Yeah, but it's nicer now than 
+							it used to be since Dad had the new stone siding put on and added the fireplace." <br/><br/>
+							There were front and back doors and a side door which led to the garage which was empty except for three parked 10-speed bikes. 
+							They went in the side door, Mark explaining that it was always open in case his younger sisters got home earlier than their mother. <br/><br/>
+							Pete wanted to see the house so Mark started with the living room. It, like the rest of the downstairs, was newly painted. 
+							Mark turned on the stereo, the noise of which worried Pete.<br/><br/>
+							"Don't worry, the nearest house is a quarter of a mile away,"Mark shouted. Pete felt more comfortable observing that no houses could be seen in any direction beyond the huge yard. 
+							The dining room, with all the china, silver and cut glass, was no place to play so the boys moved into the kitchen where they 
+							made sandwiches. Mark said they wouldn't go to the basement because it had been damp and musty ever since the new plumbing had been installed. <br/><br/>
+							"This is where my Dad keeps his famous paintings and his coin collection," Mark said as they peered into the den. 
+							Mark bragged that he could get spending money whenever he needed it since he'd discovered that his Dad kept a lot in the desk drawer. 
+							There were three upstairs bedrooms. Mark showed Pete his mother's closet which was filled with furs and the locked box which held her jewels. 
+							His sisters" room was uninteresting except for the color TV which Mark carried to his room. 
+							Mark bragged that the bathroom in the hall was his since one had been added to his sisters' room for their use. 
+							The big highlight in his room, though, was a leak in the ceiling where the old roof had finally rotted. </p>
+							
+				<center><p id = "break"> Take a 2 minute break. Feel free to browse other windows, but do not close this one. You will be alerted when 2 minutes is over.</p></center>
+	
+	
+				<center><p id = "recall_instructions2">Please write down as much of the story as you can remember. If you cannot remember the exact sentence, write down any words or objects that are as close to the original text as possible</p></center>
+				
+					
+				<form id = "recall_TextArea2" method="post" action="SaveRecall2.php">
+					<center><textarea name="recall_Info" cols="60" rows="30em"></textarea></center>
+				</form> 
+			</div>
+		</div>
+	</div>
+
+	<div id="footer">
+		<p>Copyright &#169; 2013 by Kyla Bouldin, All Rights Reserved.</p>
+	</div>
+
+</body>
+
+</html>
